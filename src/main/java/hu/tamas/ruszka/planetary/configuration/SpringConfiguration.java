@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({
-		JavaFxConfiguration.class
+		StateConfiguration.class,
+		ServiceConfiguration.class,
+		JavaFxConfiguration.class,
 })
 public class SpringConfiguration {
 
