@@ -1,6 +1,6 @@
 package hu.tamas.ruszka.planetary.service;
 
-import static hu.tamas.ruszka.planetary.model.code.ModuleStatus.NEEDS_INIT;
+import static hu.tamas.ruszka.planetary.model.code.ModuleStatus.UNKNOWN;
 
 import java.io.File;
 import java.util.Arrays;
@@ -83,7 +83,7 @@ public class ProjectService {
 	private ModuleElement createModuleTree(File rootFolder, Set<String> subModulePaths) {
 		boolean isModuleFolder = subModulePaths.stream()
 											   .anyMatch(path -> path.equals(rootFolder.getAbsolutePath()));
-		ModuleElement moduleElement = new ModuleElement(rootFolder.getName(), isModuleFolder ? NEEDS_INIT : null);
+		ModuleElement moduleElement = new ModuleElement(rootFolder.getName(), isModuleFolder ? UNKNOWN : null);
 
 		File[] subFileArray = rootFolder.listFiles();
 
@@ -96,11 +96,10 @@ public class ProjectService {
 									  .collect(Collectors.toList());
 
 		for (File subFolder : subFolders) {
-			boolean containsModuleFolder = subModulePaths.stream()
-														 .anyMatch(
-																 path -> path.startsWith(subFolder.getAbsolutePath()));
+			boolean hasModuleFolder = subModulePaths.stream()
+													.anyMatch(path -> path.startsWith(subFolder.getAbsolutePath()));
 
-			if (!containsModuleFolder) {
+			if (!hasModuleFolder) {
 				continue;
 			}
 

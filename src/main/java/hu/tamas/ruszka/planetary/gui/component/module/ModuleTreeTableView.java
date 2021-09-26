@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
-import hu.tamas.ruszka.planetary.model.code.ModuleStatus;
 import hu.tamas.ruszka.planetary.model.module.ModuleElement;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
@@ -22,7 +21,6 @@ public class ModuleTreeTableView extends TreeTableView<ModuleElement> {
 	@PostConstruct
 	public void init() {
 		setColumns();
-		//		setValues();
 	}
 
 	public void replaceValues(ModuleElement rootElement) {
@@ -38,7 +36,11 @@ public class ModuleTreeTableView extends TreeTableView<ModuleElement> {
 		TreeTableColumn<ModuleElement, String> statusColumn = new TreeTableColumn<>("Status");
 
 		nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
+		nameColumn.setMinWidth(150.0);
+		nameColumn.setPrefWidth(250.0);
 		statusColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("status"));
+		statusColumn.setMinWidth(100.0);
+		statusColumn.setPrefWidth(150.0);
 
 		getColumns().add(nameColumn);
 		getColumns().add(statusColumn);
@@ -55,27 +57,6 @@ public class ModuleTreeTableView extends TreeTableView<ModuleElement> {
 			rootItem.getChildren()
 					.add(subItem);
 		}
-	}
-
-	private void setValues() {
-		TreeItem<ModuleElement> rootItem = new TreeItem<>();
-		ModuleElement rootModule = new ModuleElement();
-		rootModule.setName("Root module");
-
-		for (int i = 0; i < 10; i++) {
-			TreeItem<ModuleElement> subItem = new TreeItem<>();
-			ModuleElement subModule = new ModuleElement();
-			subModule.setName("Sub module" + i);
-			subModule.setStatus(ModuleStatus.NEEDS_INIT);
-			subItem.setValue(subModule);
-
-			rootItem.getChildren()
-					.add(subItem);
-		}
-
-		rootItem.setValue(rootModule);
-
-		setRoot(rootItem);
 	}
 
 }

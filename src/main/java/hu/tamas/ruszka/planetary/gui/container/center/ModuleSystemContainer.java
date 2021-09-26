@@ -13,11 +13,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ModuleSystemContainer extends VBox {
 
+	private final ModuleControlContainer moduleControlContainer;
 	private final ModuleTreeTableView moduleTreeTableView;
 
 	@PostConstruct
 	public void init() {
-		getChildren().add(moduleTreeTableView);
+		getChildren().addAll(moduleControlContainer, moduleTreeTableView);
 
 		setVgrow(moduleTreeTableView, Priority.ALWAYS);
 	}

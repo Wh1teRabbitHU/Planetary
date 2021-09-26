@@ -13,8 +13,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MainStage extends Stage {
 
-	private static final int SCENE_WIDTH = 640;
-	private static final int SCENE_HEIGHT = 480;
+	private static final int SCENE_WIDTH = 800;
+	private static final int SCENE_HEIGHT = 600;
 	private static final String SCENE_TITLE = "Planetary";
 
 	private final MainContainer mainContainer;
@@ -23,6 +23,7 @@ public class MainStage extends Stage {
 	public void init() {
 		Scene scene = new Scene(mainContainer, SCENE_WIDTH, SCENE_HEIGHT);
 
+		this.setMaximized(true);
 		this.setScene(scene);
 		this.setTitle(SCENE_TITLE);
 	}
