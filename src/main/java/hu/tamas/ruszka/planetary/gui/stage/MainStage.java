@@ -23,6 +23,9 @@ public class MainStage extends Stage {
 	public void init() {
 		Scene scene = new Scene(mainContainer, SCENE_WIDTH, SCENE_HEIGHT);
 
+		scene.getStylesheets()
+			 .add("dark-theme.css");
+
 		this.setMaximized(true);
 		this.setScene(scene);
 		this.setTitle(SCENE_TITLE);
