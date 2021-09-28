@@ -8,6 +8,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
 import hu.tamas.ruszka.planetary.model.module.ModuleElement;
+import hu.tamas.ruszka.planetary.service.TerminalService;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
@@ -17,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class ModuleTreeTableView extends TreeTableView<ModuleElement> {
+
+	private final TerminalService terminalService;
 
 	@PostConstruct
 	public void init() {
@@ -29,6 +33,11 @@ public class ModuleTreeTableView extends TreeTableView<ModuleElement> {
 		fillUpTree(rootItem, rootElement.getChildrens());
 
 		setRoot(rootItem);
+		getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		getSelectionModel().selectedItemProperty()
+						   .addListener((observable, oldValue, newValue) -> terminalService.selectTerminal(
+								   newValue.getValue()
+										   .getPath()));
 	}
 
 	private void setColumns() {

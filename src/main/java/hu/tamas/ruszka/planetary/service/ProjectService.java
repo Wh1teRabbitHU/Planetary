@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import hu.tamas.ruszka.planetary.gui.component.module.ModuleTreeTableView;
+import hu.tamas.ruszka.planetary.model.code.ModuleStatus;
 import hu.tamas.ruszka.planetary.model.module.ModuleElement;
 import hu.tamas.ruszka.planetary.state.ProjectState;
 import lombok.RequiredArgsConstructor;
@@ -83,7 +84,8 @@ public class ProjectService {
 	private ModuleElement createModuleTree(File rootFolder, Set<String> subModulePaths) {
 		boolean isModuleFolder = subModulePaths.stream()
 											   .anyMatch(path -> path.equals(rootFolder.getAbsolutePath()));
-		ModuleElement moduleElement = new ModuleElement(rootFolder.getName(), isModuleFolder ? UNKNOWN : null);
+		ModuleStatus status = isModuleFolder ? UNKNOWN : null;
+		ModuleElement moduleElement = new ModuleElement(rootFolder.getName(), rootFolder.getAbsolutePath(), status);
 
 		File[] subFileArray = rootFolder.listFiles();
 
