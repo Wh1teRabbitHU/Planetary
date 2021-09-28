@@ -1,5 +1,9 @@
 package hu.tamas.ruszka.planetary.service;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -45,7 +49,10 @@ public class TerminalService {
 			return;
 		}
 
+		String response = exCommand(command);
+
 		terminal.addLine(command);
+		terminal.addLine(response);
 		terminalOutputTextArea.loadTerminal(terminal);
 	}
 
@@ -55,6 +62,50 @@ public class TerminalService {
 		}
 
 		return terminals.get(selectedTerminal);
+	}
+
+	private String exCommand(String command) {
+		StringBuilder response = new StringBuilder();
+		ProcessBuilder builder = new ProcessBuilder();
+		Process pr;
+
+		if (isWindows()) {
+			builder.command("cmd.exe", "/c", command);
+		} else {
+			builder.command("sh", "-c", command);
+		}
+
+		builder.directory(new File(selectedTerminal));
+
+		try {
+			pr = builder.start();
+			pr.waitFor();
+		} catch (IOException | InterruptedException ex) {
+			log.error(ex.getMessage(), ex);
+
+			return ex.getMessage();
+		}
+
+		try (BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()))) {
+			String line;
+
+			while ((line = buf.readLine()) != null) {
+				response.append(line)
+						.append("\n");
+			}
+		} catch (IOException ex) {
+			log.error(ex.getMessage(), ex);
+
+			return ex.getMessage();
+		}
+
+		return response.toString();
+	}
+
+	private boolean isWindows() {
+		return System.getProperty("os.name")
+					 .toLowerCase()
+					 .startsWith("windows");
 	}
 
 }
