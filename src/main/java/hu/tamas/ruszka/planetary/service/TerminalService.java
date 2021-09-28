@@ -51,9 +51,28 @@ public class TerminalService {
 
 		String response = exCommand(command);
 
-		terminal.addLine(command);
-		terminal.addLine(response);
+		terminal.addCommand(command, response);
 		terminalOutputTextArea.loadTerminal(terminal);
+	}
+
+	public String getPreviousCommand() {
+		Terminal terminal = getSelectedTerminal();
+
+		if (terminal == null) {
+			return "";
+		}
+
+		return terminal.previousCommand();
+	}
+
+	public String getNextCommand() {
+		Terminal terminal = getSelectedTerminal();
+
+		if (terminal == null) {
+			return "";
+		}
+
+		return terminal.nextCommand();
 	}
 
 	private Terminal getSelectedTerminal() {

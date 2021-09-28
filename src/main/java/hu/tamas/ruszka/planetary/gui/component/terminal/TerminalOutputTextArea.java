@@ -39,6 +39,8 @@ public class TerminalOutputTextArea extends TextArea {
 							  .orElse("");
 
 		setText(text);
+		selectPositionCaret(getLength());
+		deselect();
 	}
 
 	private Function<CommandLine, String> mapLines() {

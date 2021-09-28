@@ -30,6 +30,14 @@ public class InputTextField extends TextField {
 				terminalService.commandEntered(getText());
 
 				clear();
+			} else if (KeyCode.UP == keyEvent.getCode()) {
+				String prevCommand = terminalService.getPreviousCommand();
+
+				setText(prevCommand);
+			} else if (KeyCode.DOWN == keyEvent.getCode()) {
+				String nextCommand = terminalService.getNextCommand();
+
+				setText(nextCommand);
 			}
 		};
 	}
